@@ -7,11 +7,10 @@ passo a passo:
 2 - pip install flask_pydantic_spec
 3 - pip install pydantic
 
-
 """
 
-from conect_postgresql import conecta_postgresql
-from flask import Flask, request, jsonify
+from conect_mysql import conecta_mysql
+from flask import Flask, request, jsonify, render_template
 from flask_pydantic_spec import FlaskPydanticSpec, Request
 from pydantic import BaseModel
 
@@ -32,7 +31,7 @@ class LojasSchema(BaseModel):
     imagem: str | None = None
 
 
-conectando = conecta_postgresql()
+conectando = conecta_mysql()
 cursor = conectando.cursor()
 
 
@@ -43,7 +42,7 @@ spec.register(server)
 
 @server.get('/')
 def index():
-    return "Bem vindo a API do Projeto PI 1 - Lojas"
+    return render_template('index.html')
 
 
 
