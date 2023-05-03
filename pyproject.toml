@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "projeto-integrado-1"
+version = "0.1.0"
+description = ""
+authors = ["Igor Esposito"]
+readme = "README.md"
+packages = [{include = "projeto_integrado_1"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+flask = "^2.3.2"
+flask-pydantic-spec = "^0.4.5"
+pydantic = "^1.10.7"
+mysql-connector-python = "^8.0.33"
+python-dotenv = "^1.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
