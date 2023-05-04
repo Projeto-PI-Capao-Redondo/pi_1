@@ -99,7 +99,3 @@ def deletar_loja(id):
     cursor.execute('DELETE FROM lojas WHERE id = %s', (id,))
     conectando.commit()
     return "Loja removida com sucesso!"
-
-
-if __name__ == '__main__':
-    server.run(debug=True)
