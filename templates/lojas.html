@@ -1,9 +1,48 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Não foi</title>
-    </head>
-    <body>
-        <p>Agora vai</p>
-    </body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-8">
+        <h2>Lojas</h2>
+      </div>
+      <div class="col-md-4 text-right">
+        <a href="{{ url_for('cadastrar_loja') }}" class="btn btn-primary">Cadastrar Loja</a>
+      </div>
+    </div>
+
+    {% if lojas %}
+    <table class="table table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nome</th>
+          <th scope="col">CEP</th>
+          <th scope="col">Rua</th>
+          <th scope="col">Número</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for loja in lojas %}
+        <tr>
+          <th scope="row">{{ loja[0] }}</th>
+          <td>{{ loja[1] }}</td>
+          <td>{{ loja[2] }}</td>
+          <td>{{ loja[3] }}</td>
+          <td>{{ loja[5] }}</td>
+          <td class="text-right">
+            <form action="{{ url_for('excluir_loja', id=loja.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta loja?')">
+              <button type="submit" class="btn btn-danger">Excluir</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p>Nenhuma loja cadastrada.</p>
+    {% endif %}
+  
+  </div>
+{% endblock %}
