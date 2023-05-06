@@ -32,7 +32,7 @@
           <td>{{ loja[3] }}</td>
           <td>{{ loja[5] }}</td>
           <td class="text-right">
-            <form action="{{ url_for('excluir_loja', id=loja.id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir esta loja?')">
+            <form action="{{ url_for('excluir_loja', id=loja.id) }}" method="DELETE" onsubmit="return confirm('Tem certeza que deseja excluir esta loja?')">
               <button type="submit" class="btn btn-danger">Excluir</button>
             </form>
           </td>

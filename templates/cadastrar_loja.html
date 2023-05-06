@@ -3,6 +3,16 @@
 {% block content %}
 <h1>Cadastro de Lojas</h1>
 
+{% with mensagens = get_flashed_messages() %}
+{% if mensagens %}
+<div class="alert alert-success" role="alert">
+  {% for mensagem in mensagens %}
+  {{ mensagem }}
+  {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+
 <form method="POST" action="/lojas/cadastrar" enctype="multipart/form-data" style="margin-bottom: 50px">
   <div class="form-group">
     {{ form.csrf_token }}

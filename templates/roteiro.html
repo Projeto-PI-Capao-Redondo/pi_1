@@ -1,7 +1,45 @@
 {% extends "base.html" %}
 
-{% block title %}Título da Página{% endblock %}
-
 {% block content %}
-  <!-- Conteúdo da sua página aqui -->
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8">
+      <h2>Roteiro</h2>
+    </div>
+    <table class="table table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Loja</th>
+          <th scope="col">Hora de Inicio</th>
+          <th scope="col">Hora de fim</th>
+        </tr>
+      </thead>
+        <tbody>
+            <tr id="linha-modelo" style="display: none;">
+                <td><input type="text" name="nome"></td>
+                <td><input type="text" name="inicio"></td>
+                <td><input type="text" name="fim"></td>
+            </tr>
+        </tbody>
+    </table>
+    <button id="botao-mais">Mais</button>
+    <a href="#" id="botao-pdf">Salvar em PDF</a>
+    <script>
+        var tabela = document.getElementById('tabela');
+        var linhaModelo = document.getElementById('linha-modelo');
+        var botaoMais = document.getElementById('botao-mais');
+        var botaoPDF = document.getElementById('botao-pdf');
+        
+        botaoMais.addEventListener('click', function() {
+            var novaLinha = linhaModelo.cloneNode(true);
+            novaLinha.style.display = '';
+            tabela.querySelector('tbody').appendChild(novaLinha);
+        });
+        
+        botaoPDF.addEventListener('click', function() {
+            var doc = new jsPDF();
+            doc.autoTable({html: '#tabela'});
+            doc.save('tabela.pdf');
+        });
+    </script>
 {% endblock %}

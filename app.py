@@ -79,7 +79,6 @@ def cadastrar_loja():
         resultado = cursor.fetchone()
         if resultado:
             flash('Loja já cadastrada', 'danger')
-            return redirect(url_for('lojas'))
         else:
             inserir_loja(nome_loja, cep, rua, complemento, numero, bairro, horario_funcionamento, pontos_interesse, observacao,
                 resumo_estabelecimento, link_site_rede_social, imagem)
@@ -88,7 +87,7 @@ def cadastrar_loja():
     return render_template('cadastrar_loja.html', active='cadastrar_loja', now=now, form=form)
 
 
-@server.get('/roteiro')
+@server.route('/roteiro', methods=['GET'])
 def roteiro():
     now = datetime.now()
     return render_template('roteiro.html', active='roteiro', now=now)
