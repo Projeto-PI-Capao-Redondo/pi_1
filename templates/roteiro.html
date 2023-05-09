@@ -57,15 +57,16 @@
     </div>
     <div class="row mt-4">
       <div class="col-md-12">
-        <button type="button" class="btn btn-primary" onclick="salvarPDF()">Salvar PDF</button>
+        <button type="button" class="btn btn-primary" onclick="salvarHTML()">Salvar HTML</button>
       </div>
     </div>
   </div>
 {% endblock %}
 
 {% block scripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
       var lista = [];  // array para armazenar os itens da lista
 
@@ -109,26 +110,29 @@
           addItem();
         }
       });
-        // função para salvar o PDF
-      function salvarPDF() {
-          // cria uma instância do jsPDF
-          var doc = new jsPDF();
 
-          // define as propriedades do PDF
-          doc.setProperties({
-              title: 'Horários de Funcionamento',
-              author: 'Ajudante',
-          });
+      function salvarHTML() {
+        var html = '<html><head><title>Horários de Funcionamento</title></head><body>' + $('#lista').html() + '</body></html>';
 
-          // adiciona o conteúdo da tabela ao PDF
-          doc.autoTable({html: '#lista'});
+        // cria um blob com o conteúdo HTML
+        var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
 
-          // salva o PDF no disco
-          doc.save('roteiro.pdf');
-      }
-      // evento de clique do botão para salvar o PDF
-      $('#salvarPDF').click(function() {
-        salvarPDF();
-      });
+        // cria uma URL temporária para o blob
+        var url = URL.createObjectURL(blob);
+
+        // cria um link para o download do arquivo
+        var link = document.createElement('a');
+        link.href = url;
+        link.download = 'roteiro.html';
+        link.click();
+
+        // libera a URL temporária
+        URL.revokeObjectURL(url);
+    }
+
+    // evento de clique do botão para salvar como HTML
+    $('#salvarHTML').click(function() {
+        salvarHTML();
+    });
   </script>
 {% endblock %}
