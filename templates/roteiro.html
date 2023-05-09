@@ -1,45 +1,134 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-4">
-  <div class="row">
-    <div class="col-md-8">
-      <h2>Roteiro</h2>
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Roteiro</h2>
+      </div>
     </div>
-    <table class="table table-hover">
-      <thead class="thead-dark">
-        <tr>
-          <th scope="col">Loja</th>
-          <th scope="col">Hora de Inicio</th>
-          <th scope="col">Hora de fim</th>
-        </tr>
-      </thead>
-        <tbody>
-            <tr id="linha-modelo" style="display: none;">
-                <td><input type="text" name="nome"></td>
-                <td><input type="text" name="inicio"></td>
-                <td><input type="text" name="fim"></td>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="lojas">Lojas</label>
+          <select class="form-control" id="lojas">
+            <option value="">Selecione uma loja</option>
+            {% for loja in lojas %}
+            <option value="{{ loja[0] }}">{{ loja[1] }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="horario_inicio">Horário de Início</label>
+          <input type="time" class="form-control" id="horario_inicio">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="horario_fim">Horário de Fim</label>
+          <input type="time" class="form-control" id="horario_fim">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <button type="button" class="btn btn-primary" onclick="addItem()">Adicionar</button>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <table class="table table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Loja</th>
+              <th scope="col">Horário de Início</th>
+              <th scope="col">Horário de Fim</th>
+              <th scope="col"></th>
             </tr>
-        </tbody>
-    </table>
-    <button id="botao-mais">Mais</button>
-    <a href="#" id="botao-pdf">Salvar em PDF</a>
-    <script>
-        var tabela = document.getElementById('tabela');
-        var linhaModelo = document.getElementById('linha-modelo');
-        var botaoMais = document.getElementById('botao-mais');
-        var botaoPDF = document.getElementById('botao-pdf');
-        
-        botaoMais.addEventListener('click', function() {
-            var novaLinha = linhaModelo.cloneNode(true);
-            novaLinha.style.display = '';
-            tabela.querySelector('tbody').appendChild(novaLinha);
-        });
-        
-        botaoPDF.addEventListener('click', function() {
-            var doc = new jsPDF();
-            doc.autoTable({html: '#tabela'});
-            doc.save('tabela.pdf');
-        });
-    </script>
+          </thead>
+          <tbody id="lista">
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <button type="button" class="btn btn-primary" onclick="salvarPDF()">Salvar PDF</button>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+      var lista = [];  // array para armazenar os itens da lista
+
+      // função para adicionar um item na lista
+      function addItem() {
+        var loja = $('#lojas option:selected').text();
+        var horario_inicio = $('#horario_inicio').val();
+        var horario_fim = $('#horario_fim').val();
+
+        // verifica se todos os campos foram preenchidos
+        if (loja != '' && horario_inicio != '' && horario_fim != '') {
+          var item = [loja, horario_inicio, horario_fim];
+          lista.push(item);
+          atualizarLista();
+        } else {
+          alert('Preencha todos os campos!');
+        }
+      }
+
+      // função para atualizar a lista na página
+      function atualizarLista() {
+        var html = '';
+        for (var i = 0; i < lista.length; i++) {
+          html += '<tr>';
+          html += '<td>' + lista[i][0] + '</td>';
+          html += '<td>' + lista[i][1] + '</td>';
+          html += '<td>' + lista[i][2] + '</td>';
+          html += '</tr>';
+        }
+        $('#lista').html(html);
+      }
+
+      // evento de clique do botão para adicionar um item
+      $('#adicionar').click(function() {
+        addItem();
+      });
+
+      // evento de pressionar a tecla Enter nos campos de input
+      $('#lojas, #horario_inicio, #horario_fim').keypress(function(e) {
+        if (e.which == 13) {
+          addItem();
+        }
+      });
+        // função para salvar o PDF
+      function salvarPDF() {
+          // cria uma instância do jsPDF
+          var doc = new jsPDF();
+
+          // define as propriedades do PDF
+          doc.setProperties({
+              title: 'Horários de Funcionamento',
+              author: 'Ajudante',
+          });
+
+          // adiciona o conteúdo da tabela ao PDF
+          doc.autoTable({html: '#lista'});
+
+          // salva o PDF no disco
+          doc.save('roteiro.pdf');
+      }
+      // evento de clique do botão para salvar o PDF
+      $('#salvarPDF').click(function() {
+        salvarPDF();
+      });
+  </script>
 {% endblock %}

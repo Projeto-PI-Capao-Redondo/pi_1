@@ -90,21 +90,9 @@ def cadastrar_loja():
 @server.route('/roteiro', methods=['GET'])
 def roteiro():
     now = datetime.now()
-    return render_template('roteiro.html', active='roteiro', now=now)
-
-
-def listar_lojas():
-    """Retorna todas as Pessoas da base de dados."""
     cursor.execute('SELECT * FROM lojas')
-    dados = cursor.fetchall()
-    json = {}
-    for dado in dados:
-        json[dado[0]] = {"id": dado[0], "nome_loja": dado[1], "cep": dado[2], "rua": 
-        dado[3], "complemento": dado[4], "numero": dado[5], "observacao": dado[6], 
-        "bairro": dado[7], "horario_funcionamento": dado[8], "pontos_interesse": dado[9], 
-        "resumo_estabelecimento": dado[10], "link_site_rede_social": dado[11], "imagem": dado[12]}
-    return jsonify(json)
-
+    lojas = cursor.fetchall()
+    return render_template('roteiro.html', active='roteiro', now=now, lojas=lojas)
 
 def inserir_loja(nome_loja, cep, rua, complemento, numero, bairro, horario_funcionamento, pontos_interesse, observacao="Sem Informação",
                 resumo_estabelecimento="Sem Informação", link_site_rede_social="Sem Informação", imagem="Sem Informação"):
@@ -120,7 +108,6 @@ def inserir_loja(nome_loja, cep, rua, complemento, numero, bairro, horario_funci
 
     # Retorna a mensagem de sucesso
     return {'mensagem': 'Loja cadastrada com sucesso'}, 201
-
 
 @spec.validate(
     body=Request(LojasSchema)
