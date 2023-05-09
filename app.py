@@ -138,9 +138,9 @@ def alterar_loja(request: Request, id: int):
     # Retorna a mensagem de sucesso
     return {'mensagem': f'Loja com id {id} alterada com sucesso'}, 200
 
-@server.route('/lojas/excluir_loja', methods=['DELETE'])
+@server.route('/lojas/excluir_loja/<int:id>', methods=['GET', 'POST'])
 def excluir_loja(id):
     """Remove uma loja do banco de dados."""
     cursor.execute('DELETE FROM lojas WHERE id = %s', (id,))
     conectando.commit()
-    return "Loja removida com sucesso!"
+    return redirect(url_for('lojas'))
