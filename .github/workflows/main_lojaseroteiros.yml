@@ -63,3 +63,4 @@ jobs:
           HOST: ${{ secrets.HOST }}
           PORTA: ${{ secrets.PORTA }}
           NOME_BANCO: ${{ secrets.NOME_BANCO }}
+          CSRF: ${{ secrets.CSRF }}

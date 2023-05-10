@@ -8,6 +8,7 @@ passo a passo:
 3 - pip install pydantic
 
 """
+import os
 from datetime import datetime
 from conect_mysql import conecta_mysql
 from flask import Flask, request, jsonify, render_template, redirect, flash, url_for
@@ -15,6 +16,9 @@ from flask_pydantic_spec import FlaskPydanticSpec, Request
 from pydantic import BaseModel
 from formulario_lojas import LojasForm
 from flask_wtf.csrf import CSRFProtect
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class LojasSchema(BaseModel):
     """ Lojas para o backend """
@@ -38,7 +42,7 @@ cursor = conectando.cursor()
 
 
 server = Flask(__name__)
-server.config['SECRET_KEY'] = 'teste'
+server.config['SECRET_KEY'] = os.getenv('CSRF')
 csrf = CSRFProtect(server)
 spec = FlaskPydanticSpec('Flask', title='Explicação API - Projeto PI 1')
 spec.register(server)
