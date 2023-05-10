@@ -41,25 +41,25 @@ conectando = conecta_mysql()
 cursor = conectando.cursor()
 
 
-server = Flask(__name__)
-server.config['SECRET_KEY'] = os.getenv('CSRF')
-csrf = CSRFProtect(server)
+app = Flask(__name__)
+app.config['SECRET_KEY'] = os.getenv('CSRF')
+csrf = CSRFProtect(app)
 spec = FlaskPydanticSpec('Flask', title='Explicação API - Projeto PI 1')
-spec.register(server)
+spec.register(app)
 
-@server.get('/')
+@app.get('/')
 def index():
     now = datetime.now()
     return render_template('index.html', active='index', now=now)
 
-@server.route('/lojas', methods=['GET'])
+@app.route('/lojas', methods=['GET'])
 def lojas():
     now = datetime.now()
     cursor.execute('SELECT * FROM lojas')
     lojas = cursor.fetchall()
     return render_template('lojas.html', active='lojas', now=now, lojas=lojas)
 
-@server.route('/lojas/cadastrar', methods=['GET', 'POST'])
+@app.route('/lojas/cadastrar', methods=['GET', 'POST'])
 def cadastrar_loja():
     now = datetime.now()
     form = LojasForm(request.form)
@@ -91,7 +91,7 @@ def cadastrar_loja():
     return render_template('cadastrar_loja.html', active='cadastrar_loja', now=now, form=form)
 
 
-@server.route('/roteiro', methods=['GET'])
+@app.route('/roteiro', methods=['GET'])
 def roteiro():
     now = datetime.now()
     cursor.execute('SELECT * FROM lojas')
@@ -129,7 +129,7 @@ def alterar_loja(request: Request, id: int):
     # Retorna a mensagem de sucesso
     return {'mensagem': f'Loja com id {id} alterada com sucesso'}, 200
 
-@server.route('/lojas/excluir_loja/<int:id>', methods=['GET', 'POST'])
+@app.route('/lojas/excluir_loja/<int:id>', methods=['GET', 'POST'])
 def excluir_loja(id):
     """Remove uma loja do banco de dados."""
     cursor.execute('DELETE FROM lojas WHERE id = %s', (id,))
@@ -137,4 +137,4 @@ def excluir_loja(id):
     return redirect(url_for('lojas'))
 
 if __name__ == '__main__':
-    server.run()
+    app.run()
