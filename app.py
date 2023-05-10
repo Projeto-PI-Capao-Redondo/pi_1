@@ -135,3 +135,6 @@ def excluir_loja(id):
     cursor.execute('DELETE FROM lojas WHERE id = %s', (id,))
     conectando.commit()
     return redirect(url_for('lojas'))
+
+if __name__ == '__main__':
+    server.run()
