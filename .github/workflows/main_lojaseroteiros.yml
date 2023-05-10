@@ -1,4 +1,4 @@
-name: Deploy do Projeto Integrado - 1
+name: Deploy do Projeto Integrado - 1 - AZURE APP SERVICE
 
 on:
   push:

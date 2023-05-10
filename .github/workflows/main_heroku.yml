@@ -1,0 +1,25 @@
+name: Deploy do Projeto Integrado - 1 - HEROKU
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.13
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "projeto-pi"
+          heroku_email: "sposigor@gmail.com"
+          healthcheck: "https://projeto-pi.herokuapp.com/health"
+        env:
+          USUARIO: ${{ secrets.USUARIO }}
+          SENHA: ${{ secrets.SENHA }}
+          HOST: ${{ secrets.HOST }}
+          PORTA: ${{ secrets.PORTA }}
+          NOME_BANCO: ${{ secrets.NOME_BANCO }}
+          CSRF: ${{ secrets.CSRF }}
