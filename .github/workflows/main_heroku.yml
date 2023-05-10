@@ -15,7 +15,6 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "projeto-pi"
           heroku_email: "sposigor@gmail.com"
-          healthcheck: "https://projeto-pi.herokuapp.com/health"
         env:
           USUARIO: ${{ secrets.USUARIO }}
           SENHA: ${{ secrets.SENHA }}
