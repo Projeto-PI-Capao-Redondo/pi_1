@@ -1,8 +1,4 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-# More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
-
-name: Build and deploy Python app to Azure Web App - lojaseroteiros
+name: Deploy do Projeto Integrado - 1
 
 on:
   push:
@@ -17,17 +13,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Python version
+      - name: Versão Python
         uses: actions/setup-python@v1
         with:
           python-version: '3.10'
 
-      - name: Create and start virtual environment
+      - name: Ambiente virtual
         run: |
           python -m venv venv
           source venv/bin/activate
       
-      - name: Install dependencies
+      - name: Depedencias
         run: pip install -r requirements.txt
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
@@ -61,3 +57,9 @@ jobs:
           app-name: 'lojaseroteiros'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F869FE1931E5492F82C67E86E37A0D04 }}
+        env:
+          USUARIO: ${{ secrets.USUARIO }}
+          SENHA: ${{ secrets.SENHA }}
+          HOST: ${{ secrets.HOST }}
+          PORTA: ${{ secrets.PORTA }}
+          NOME_BANCO: ${{ secrets.NOME_BANCO }}

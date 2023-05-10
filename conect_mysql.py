@@ -12,11 +12,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-usuario = os.getenv('usuario')
-senha = os.getenv('senha')
-host = os.getenv('host')
-porta = os.getenv('porta')
-banco = os.getenv('banco')
+usuario = os.getenv('USUARIO')
+senha = os.getenv('SENHA')
+host = os.getenv('HOST')
+porta = os.getenv('PORTA')
+banco = os.getenv('NOME_BANCO')
 
 def conecta_mysql():
     try:
