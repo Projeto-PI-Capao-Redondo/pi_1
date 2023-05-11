@@ -38,6 +38,7 @@ class LojasSchema(BaseModel):
 
 
 conectando = conecta_mysql()
+conectando.reconnect(attempts=3, delay=5)
 cursor = conectando.cursor()
 
 
@@ -138,3 +139,5 @@ def excluir_loja(id):
 
 if __name__ == '__main__':
     app.run()
+    conectando.close()
+    cursor.close()

@@ -20,7 +20,7 @@ banco = os.getenv('NOME_BANCO')
 
 def conecta_mysql():
     try:
-        conectando = mysql.connector.connect(host=host, user=usuario, password=senha, database=banco, port=porta)
+        conectando = mysql.connector.connect(host=host, user=usuario, password=senha, database=banco, port=porta, connect_timeout=500)
         print('Conectado ao MySQL')
         return conectando
     except mysql.connector.Error as err:
