@@ -80,7 +80,7 @@ def cadastrar_loja():
         imagem = request.form['imagem']
 
         # Verifica se a loja já existe no banco de dados
-        cursor.execute('SELECT id FROM lojas WHERE nome_loja = %s OR cep = %s', (nome_loja, cep))
+        cursor.execute('SELECT id FROM lojas WHERE nome_loja = %s', (nome_loja))
         resultado = cursor.fetchone()
         if resultado:
             flash('Loja já cadastrada', 'danger')
